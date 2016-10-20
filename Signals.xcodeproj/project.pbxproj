@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0BB2827B1DB8C50100C43D88 /* SignalsChainingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BB282791DB8C41D00C43D88 /* SignalsChainingTests.swift */; };
 		720D11781A085315003C4361 /* Signals.h in Headers */ = {isa = PBXBuildFile; fileRef = 720D11771A085315003C4361 /* Signals.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		720D117E1A085315003C4361 /* Signals.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 720D11721A085314003C4361 /* Signals.framework */; };
 		720D11851A085315003C4361 /* SignalsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 720D11841A085315003C4361 /* SignalsTests.swift */; };
@@ -64,6 +65,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0BB282791DB8C41D00C43D88 /* SignalsChainingTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignalsChainingTests.swift; sourceTree = "<group>"; };
 		720D11721A085314003C4361 /* Signals.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Signals.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		720D11761A085315003C4361 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		720D11771A085315003C4361 /* Signals.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Signals.h; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				720D118F1A085370003C4361 /* SingalQueueTests.swift */,
 				723C01CA1C377DEA000A998E /* UIControl+SignalsTests.swift */,
 				720D11821A085315003C4361 /* Supporting Files */,
+				0BB282791DB8C41D00C43D88 /* SignalsChainingTests.swift */,
 			);
 			path = SignalsTests;
 			sourceTree = "<group>";
@@ -561,6 +564,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				72665B521C212BF60067DF26 /* SingalQueueTests.swift in Sources */,
+				0BB2827B1DB8C50100C43D88 /* SignalsChainingTests.swift in Sources */,
 				72665B511C212BF60067DF26 /* SignalsTests.swift in Sources */,
 				72665B4F1C212BF60067DF26 /* TestListener.swift in Sources */,
 				72665B501C212BF60067DF26 /* SignalEmitter.swift in Sources */,

@@ -220,6 +220,38 @@ final public class Signal<T> {
     public func clearLastData() {
         lastDataFired = nil
     }
+    
+    // MARK: - Chaining
+    
+    private var sources: [Signal<T>] = []
+    
+    private func addSource(source: Signal<T>, listenfunc: (AnyObject, @escaping SignalCallback) -> SignalListener<T>) -> SignalListener<T> {
+        self.sources.append(source)
+        return listenfunc(self) { [weak self] in
+            self?.fire($0)
+        }
+    }
+    
+    @discardableResult
+    public func listen(source: Signal<T>) -> SignalListener<T> {
+        return self.addSource(source: source, listenfunc: source.listen)
+    }
+    
+    @discardableResult
+    public func listenPast(source: Signal<T>) -> SignalListener<T> {
+        return self.addSource(source: source, listenfunc: source.listenPast)
+    }
+    
+    @discardableResult
+    public func listenOnce(source: Signal<T>) -> SignalListener<T> {
+        return self.addSource(source: source, listenfunc: source.listenOnce)
+    }
+    
+    @discardableResult
+    public func listenPastOnce(source: Signal<T>) -> SignalListener<T> {
+        return self.addSource(source: source, listenfunc: source.listenPastOnce)
+    }
+    
 }
 
 /// A SignalLister represenents an instance and its association with a Signal.
