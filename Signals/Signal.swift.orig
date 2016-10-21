@@ -155,6 +155,39 @@ final public class Signal<T> {
         lastDataFired = nil
     }
     
+<<<<<<< HEAD
+    // MARK: - Chaining
+    
+    private var sources: [Signal<T>] = []
+    
+    private func addSource(source: Signal<T>, listenfunc: (AnyObject, @escaping SignalCallback) -> SignalListener<T>) -> SignalListener<T> {
+        self.sources.append(source)
+        return listenfunc(self) { [weak self] in
+            self?.fire($0)
+        }
+    }
+    
+    @discardableResult
+    public func listen(source: Signal<T>) -> SignalListener<T> {
+        return self.addSource(source: source, listenfunc: source.listen)
+    }
+    
+    @discardableResult
+    public func listenPast(source: Signal<T>) -> SignalListener<T> {
+        return self.addSource(source: source, listenfunc: source.listenPast)
+    }
+    
+    @discardableResult
+    public func listenOnce(source: Signal<T>) -> SignalListener<T> {
+        return self.addSource(source: source, listenfunc: source.listenOnce)
+    }
+    
+    @discardableResult
+    public func listenPastOnce(source: Signal<T>) -> SignalListener<T> {
+        return self.addSource(source: source, listenfunc: source.listenPastOnce)
+    }
+    
+=======
     // MARK: - Private Interface
     
     private func flushCancelledListeners() {
@@ -170,38 +203,7 @@ final public class Signal<T> {
             }
         }
     }
-    
-    // MARK: - Chaining
-    
-    private var sources: [Signal<T>] = []
-    
-    private func addSource(source: Signal<T>, subscribeFunction: (AnyObject, @escaping SignalCallback) -> SignalSubscription<T>) -> SignalSubscription<T> {
-        self.sources.append(source)
-        return subscribeFunction(self) { [weak self] in
-            self?.fire($0)
-        }
-    }
-    
-    @discardableResult
-    public func subscribe(source: Signal<T>) -> SignalSubscription<T> {
-        return self.addSource(source: source, subscribeFunction: source.subscribe)
-    }
-    
-    @discardableResult
-    public func subscribePast(source: Signal<T>) -> SignalSubscription<T> {
-        return self.addSource(source: source, subscribeFunction: source.subscribePast)
-    }
-    
-    @discardableResult
-    public func subscribeOnce(source: Signal<T>) -> SignalSubscription<T> {
-        return self.addSource(source: source, subscribeFunction: source.subscribeOnce)
-    }
-    
-    @discardableResult
-    public func subscribePastOnce(source: Signal<T>) -> SignalSubscription<T> {
-        return self.addSource(source: source, subscribeFunction: source.subscribePastOnce)
-    }
-    
+>>>>>>> master
 }
 
 /// A SignalLister represenents an instance and its association with a `Signal`.

@@ -8,6 +8,9 @@
 
 import XCTest
 import Signals
+#if os(Linux)
+import Dispatch
+#endif
 
 class SignalsChainingTests: XCTestCase {
     
@@ -28,11 +31,11 @@ class SignalsChainingTests: XCTestCase {
         
         let referenceString = "This is a test"
         
-        signal1.listen(source: signal2)
-        signal2.listen(source: signal3)
+        signal1.subscribe(source: signal2)
+        signal2.subscribe(source: signal3)
         
         let expectation = self.expectation(description: "Signal comes through")
-        signal1.listen(on: self) {
+        signal1.subscribe(on: self) {
             XCTAssertEqual(referenceString, $0)
             expectation.fulfill()
         }
@@ -50,8 +53,8 @@ class SignalsChainingTests: XCTestCase {
             let signal2 = Signal<String>()
             let signal3 = Signal<String>()
             
-            signal1.listen(source: signal2)
-            signal2.listen(source: signal3)
+            signal1.subscribe(source: signal2)
+            signal2.subscribe(source: signal3)
             
             DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + .seconds(2)) { 
                 signal3 => referenceString
@@ -63,7 +66,7 @@ class SignalsChainingTests: XCTestCase {
         let signal = generateChain()
         let expectation = self.expectation(description: "Signal comes through")
         
-        signal.listen(on:self) {
+        signal.subscribe(on:self) {
             XCTAssertEqual(referenceString, $0)
             expectation.fulfill()
         }
