@@ -75,4 +75,69 @@ class SignalsChainingTests: XCTestCase {
         
     }
     
+    class WeakSignals {
+        var signal1: Signal<String>? = Signal<String>()
+        weak var signal2: Signal<String>?
+        weak var signal3: Signal<String>?
+        
+        init() {
+            let signal2 = Signal<String>()
+            let signal3 = Signal<String>()
+            signal1!.subscribe(source: signal2)
+            signal2.subscribe(source: signal3)
+            
+            self.signal2 = signal2
+            self.signal3 = signal3
+        }
+    }
+    
+    func testPersistence() {
+        
+        let weaks = WeakSignals()
+        
+        XCTAssertNotNil(weaks.signal3)
+        
+        // The signal is the only owner of its descendant sources
+        weaks.signal1 = nil
+        
+        XCTAssertNil(weaks.signal3)
+        
+    }
+    
+    func testBreakChain() {
+        
+        let weaks = WeakSignals()
+        
+        let referenceString = "This is a test"
+        
+        let ex = self.expectation(description: "Get fire")
+        weaks.signal1?.subscribeOnce(on: self) {
+            XCTAssertEqual(referenceString, $0)
+            ex.fulfill()
+        }
+        weaks.signal3?.fire(referenceString)
+        
+        self.waitForExpectations(timeout: 1, handler: nil)
+        
+        // break the chain
+        // hold a reference to signal 3 so it doesn't get deallocated
+        
+        let signal3 = weaks.signal3!
+        
+        weaks.signal1?.subscribeOnce(on: self) { _ in
+            XCTFail("This should not have been fired")
+        }
+        
+        weaks.signal2?.subscribeOnce(on: self) { _ in
+            XCTFail("This should not have been fired")
+        }
+        
+        weaks.signal1 = nil
+        
+        signal3.fire(referenceString)
+        
+        XCTAssertEqual(signal3.observers.count, 0)
+        
+    }
+    
 }

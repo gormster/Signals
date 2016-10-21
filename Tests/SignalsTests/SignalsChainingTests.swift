@@ -1,0 +1,1 @@
+../../SignalsTests/SignalsChainingTests.swift
