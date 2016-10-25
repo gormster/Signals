@@ -132,6 +132,28 @@ self.onData => (data:receivedData, error:receivedError)
 self.onProgress => 1.0
 ```
 
+## Chaining signals together
+
+Signals can be easily chained together without holding a reference to the signals in the chain. This is useful when you have a chain of signal providers and want to return a single signal that all those signal providers can send data through.
+
+```
+[Consumer]←─────╮      [Consumer]←─────╮      [Consumer]
+    ↓           │          ↓           │          ↓           x
+[Provider] → [Signal]  [Provider]   [Signal]  [Provider]   [Signal]  
+    ↓           ↑          ↓           ↑          ↓           x      
+[Prodiver] → [Signal]  [Prodiver]   [Signal]  [Prodiver]   [Signal]  
+    ↓           ↑          ↓           ↑          ↓           x      
+[Provider] → [Signal]  [Provider]   [Signal]  [Provider]   [Signal]  
+
+         [1]                    [2]                    [3]         
+```
+
+1. Consumer calls down provider chain; each provider creates a signal to return its data, then adds the signal from the next link as a source. The provider does not need to retain a reference to either signal.
+2. The consumer reads the data off the signals.
+3. Once the consumer is done with the signal, all the signals are released without any intervention from the consumer or the providers.
+
+You can add a source signal with `subscribe(source:)`. All the normal variants of `subscribe` are also allowed.
+
 ## Replacing actions
 
 Signals extends all classes that extend from UIControl (not available on OS X) and lets you use Signals to listen to control events for increased code locality.
