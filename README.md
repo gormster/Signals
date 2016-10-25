@@ -134,7 +134,7 @@ self.onProgress => 1.0
 
 ## Chaining signals together
 
-Signals can be easily chained together without holding a reference to the signals in the chain. This is useful when you have a chain of signal providers and want to return a single signal that all those signal providers can send data through.
+Signals can be easily chained together without having to hold references to all of the signals in the chain. This is useful when you have a chain of data providers and want to return a single signal that all those providers can send data through.
 
 ```
 [Consumer]←─────╮      [Consumer]←─────╮      [Consumer]
@@ -148,7 +148,7 @@ Signals can be easily chained together without holding a reference to the signal
          [1]                    [2]                    [3]         
 ```
 
-1. Consumer calls down provider chain; each provider creates a signal to return its data, then adds the signal from the next link as a source. The provider does not need to retain a reference to either signal.
+1. The consumer calls down the provider chain; each provider creates a signal to return its data, then adds the signal from the next link as a source. The provider does not need to retain a reference to either signal.
 2. The consumer reads the data off the signals.
 3. Once the consumer is done with the signal, all the signals are released without any intervention from the consumer or the providers.
 
